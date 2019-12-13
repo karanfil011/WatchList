@@ -1,6 +1,6 @@
 //
 //  AddMovieController.swift
-//  Watched
+//  WatchList
 //
 //  Created by Ali on 26.11.2019.
 //  Copyright © 2019 Ali. All rights reserved.
@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 import CoreData
 
-//protocol AddToListDelegate {
-//    func didAddToList(watched: Watched, listName: String)
-//}
+protocol AddToListDelegate {
+    func didAddToList(watchList: WatchList, listName: String)
+}
 
 class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SendNameBack {
     func sendSelectedTitle(name: String) {
@@ -112,7 +112,7 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
         return title
     }()
     
-//    var addDelegate: AddToListDelegate?
+    var addDelegate: AddToListDelegate?
     
     @objc private func handleSelectPhoto() {
         print("Trying to select photo..")
@@ -185,14 +185,14 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
         }
         
         
-//        let context = CoreDataManager.shared.persistantContainer.viewContext
-//        let watched = NSEntityDescription.insertNewObject(forEntityName: "Watched", into: context)
-//
-//        watched.setValue(title, forKey: "name")
-//        watched.setValue(list, forKey: "list")
-//        watched.setValue(dateFormatted, forKey: "date")
-//        watched.setValue(detail, forKey: "detail")
-//        watched.setValue(image.jpegData(compressionQuality: 0.8) as NSData?, forKey: "image")
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        let watchList = NSEntityDescription.insertNewObject(forEntityName: "WatchList", into: context)
+
+        watchList.setValue(title, forKey: "name")
+        watchList.setValue(list, forKey: "list")
+        watchList.setValue(dateFormatted, forKey: "date")
+        watchList.setValue(detail, forKey: "detail")
+        watchList.setValue(image.jpegData(compressionQuality: 0.8) as NSData?, forKey: "image")
         
         if titleTextField.text == "" {
             
@@ -202,15 +202,15 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
             
         }
         else {
-//            do {
-//                try context.save()
-//                dismiss(animated: true) {
-//                    self.addDelegate?.didAddToList(watched: watched as! Watched, listName: list)
-//                }
-//            }
-//            catch {
-//                print("Error saving watched", error)
-//            }
+            do {
+                try context.save()
+                dismiss(animated: true) {
+                    self.addDelegate?.didAddToList(watchList: watchList as! WatchList, listName: list)
+                }
+            }
+            catch {
+                print("Error saving watchList", error)
+            }
             dismiss(animated: true, completion: nil)
         }
         

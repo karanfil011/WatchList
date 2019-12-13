@@ -1,6 +1,6 @@
 //
 //  AddNameController.swift
-//  Watched
+//  WatchList
 //
 //  Created by Ali on 02.12.2019.
 //  Copyright © 2019 Ali. All rights reserved.

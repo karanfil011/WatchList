@@ -18,6 +18,11 @@
 		41B1823523A3797E00EFF89D /* MyLibraryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1823423A3797E00EFF89D /* MyLibraryTableCell.swift */; };
 		41B1823923A3842300EFF89D /* AddListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1823823A3842300EFF89D /* AddListController.swift */; };
 		41B1823B23A3845700EFF89D /* AddNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1823A23A3845700EFF89D /* AddNameController.swift */; };
+		41B1823F23A397AF00EFF89D /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1823E23A397AF00EFF89D /* CoreDataManager.swift */; };
+		41B1824223A3988A00EFF89D /* WatchListModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41B1824023A3988A00EFF89D /* WatchListModel.xcdatamodeld */; };
+		41B1824723A39CF500EFF89D /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1824623A39CF500EFF89D /* ListController.swift */; };
+		41B1824923A39E1400EFF89D /* ListTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1824823A39E1400EFF89D /* ListTableCell.swift */; };
+		41B1824B23A39E2D00EFF89D /* ListController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B1824A23A39E2D00EFF89D /* ListController+TableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +39,11 @@
 		41B1823423A3797E00EFF89D /* MyLibraryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLibraryTableCell.swift; sourceTree = "<group>"; };
 		41B1823823A3842300EFF89D /* AddListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListController.swift; sourceTree = "<group>"; };
 		41B1823A23A3845700EFF89D /* AddNameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNameController.swift; sourceTree = "<group>"; };
+		41B1823E23A397AF00EFF89D /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		41B1824123A3988A00EFF89D /* WatchListModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WatchListModel.xcdatamodel; sourceTree = "<group>"; };
+		41B1824623A39CF500EFF89D /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
+		41B1824823A39E1400EFF89D /* ListTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableCell.swift; sourceTree = "<group>"; };
+		41B1824A23A39E2D00EFF89D /* ListController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListController+TableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +83,8 @@
 				41B1821D23A36CFA00EFF89D /* LaunchScreen.storyboard */,
 				41B1822023A36CFA00EFF89D /* Info.plist */,
 				41B1822C23A3704400EFF89D /* Helper.swift */,
+				41B1823E23A397AF00EFF89D /* CoreDataManager.swift */,
+				41B1824323A3989400EFF89D /* WatchListModel */,
 			);
 			path = WatchList;
 			sourceTree = "<group>";
@@ -84,6 +96,9 @@
 				41B1823023A3752000EFF89D /* MyLibraryController+TableView.swift */,
 				41B1823423A3797E00EFF89D /* MyLibraryTableCell.swift */,
 				41B1823723A3838A00EFF89D /* AddMovie */,
+				41B1824623A39CF500EFF89D /* ListController.swift */,
+				41B1824A23A39E2D00EFF89D /* ListController+TableView.swift */,
+				41B1824823A39E1400EFF89D /* ListTableCell.swift */,
 			);
 			path = MyLibrary;
 			sourceTree = "<group>";
@@ -104,6 +119,14 @@
 				41B1823A23A3845700EFF89D /* AddNameController.swift */,
 			);
 			path = "AddName&List";
+			sourceTree = "<group>";
+		};
+		41B1824323A3989400EFF89D /* WatchListModel */ = {
+			isa = PBXGroup;
+			children = (
+				41B1824023A3988A00EFF89D /* WatchListModel.xcdatamodeld */,
+			);
+			path = WatchListModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,8 +206,13 @@
 				41B1823523A3797E00EFF89D /* MyLibraryTableCell.swift in Sources */,
 				41B1823123A3752000EFF89D /* MyLibraryController+TableView.swift in Sources */,
 				41B1822923A36D4700EFF89D /* MyLibraryController.swift in Sources */,
+				41B1823F23A397AF00EFF89D /* CoreDataManager.swift in Sources */,
 				41B1823923A3842300EFF89D /* AddListController.swift in Sources */,
+				41B1824B23A39E2D00EFF89D /* ListController+TableView.swift in Sources */,
 				41B1822D23A3704400EFF89D /* Helper.swift in Sources */,
+				41B1824723A39CF500EFF89D /* ListController.swift in Sources */,
+				41B1824923A39E1400EFF89D /* ListTableCell.swift in Sources */,
+				41B1824223A3988A00EFF89D /* WatchListModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +412,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		41B1824023A3988A00EFF89D /* WatchListModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				41B1824123A3988A00EFF89D /* WatchListModel.xcdatamodel */,
+			);
+			currentVersion = 41B1824123A3988A00EFF89D /* WatchListModel.xcdatamodel */;
+			path = WatchListModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 41B1820923A36CF600EFF89D /* Project object */;
 }

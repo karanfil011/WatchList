@@ -1,6 +1,6 @@
 //
 //  AddListController.swift
-//  Watched
+//  WatchList
 //
 //  Created by Ali on 01.12.2019.
 //  Copyright © 2019 Ali. All rights reserved.
@@ -18,14 +18,12 @@ class AddListController: UITableViewController {
     let cellId = "cellId"
     
     var list = [
-        "Top 10",
+        "Watch Later",
         "Favorite horror movies",
         "Favorite drama",
         "Best of 2019",
         "Favorite 80's movies"
     ]
-    
-    //    var myMovie = Movie()
     
     var delegate: DataTransferProtocol?
     
@@ -35,7 +33,6 @@ class AddListController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
         navigationItem.title = "List"
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add list", style: .plain, target: self, action: #selector(handleAddList))
         
@@ -91,9 +88,7 @@ class AddListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            
-            //            let list = self.list[indexPath.row]
-            
+                        
             self.list.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             

@@ -27,9 +27,10 @@ class MyLibraryController: UITableViewController {
         tableView.register(MyLibraryTableCell.self, forCellReuseIdentifier: cellId)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: secondSectionCellId)
         
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
         view.backgroundColor = .white
         navigationItem.title = "My Library"
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
     }
     
