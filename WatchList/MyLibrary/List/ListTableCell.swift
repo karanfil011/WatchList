@@ -17,6 +17,12 @@ class ListTableCell: UITableViewCell {
         return image
     }()
     
+    let listImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
     let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +47,13 @@ class ListTableCell: UITableViewCell {
         poster.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15).isActive = true
         poster.heightAnchor.constraint(equalToConstant: 65).isActive = true
         poster.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        
+        addSubview(listImage)
+        listImage.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        listImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15).isActive = true
+        listImage.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        listImage.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        
         
         addSubview(label)
         label.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true

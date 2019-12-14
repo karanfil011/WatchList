@@ -19,13 +19,17 @@ class MyLibraryController: UITableViewController {
     let cellId = "cellId"
     let secondSectionCellId = "secondSectionCellId"
     
-    let list = ["Movies", "TV Shows", "My Top 10", "Favorite Horror Movies"]
+    var list = [CategoryList]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.list = CoreDataManager.shared.fetchCategoryList()
+        tableView.reloadData()
+        
+        tableView.tableFooterView = UIView()
         tableView.register(MyLibraryTableCell.self, forCellReuseIdentifier: cellId)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: secondSectionCellId)
+        tableView.register(ListTableCell.self, forCellReuseIdentifier: secondSectionCellId)
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         

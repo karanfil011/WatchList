@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 protocol DataTransferProtocol {
     func selectedList(listName: String)
@@ -17,13 +18,15 @@ class AddListController: UITableViewController {
     
     let cellId = "cellId"
     
-    var list = [
-        "Watch Later",
-        "Favorite horror movies",
-        "Favorite drama",
-        "Best of 2019",
-        "Favorite 80's movies"
-    ]
+//    var list = [
+//        "Watch Later",
+//        "Favorite horror movies",
+//        "Favorite drama",
+//        "Best of 2019",
+//        "Favorite 80's movies"
+//    ]
+    
+    var list = [CategoryList]()
     
     var delegate: DataTransferProtocol?
     
@@ -32,6 +35,21 @@ class AddListController: UITableViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
+        self.list = CoreDataManager.shared.fetchCategoryList()
+        
+        let context = CoreDataManager.shared.persistantContainer.viewContext
+        let categoryList = NSEntityDescription.insertNewObject(forEntityName: "CategoryList", into: context)
+        categoryList.setValue("Watch later", forKey: "categoryName")
+
+        do {
+            try context.save()
+        }
+        catch {
+            print("Failed to save", error)
+        }
+        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+
         navigationItem.title = "List"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add list", style: .plain, target: self, action: #selector(handleAddList))
@@ -46,7 +64,19 @@ class AddListController: UITableViewController {
         }
         let action = UIAlertAction(title: "Save", style: .default) { (action) in
             if let summaText = alert.textFields?.first?.text {
-                self.list.append(summaText)
+                
+                let context = CoreDataManager.shared.persistantContainer.viewContext
+                let categoryList = NSEntityDescription.insertNewObject(forEntityName: "CategoryList", into: context)
+                categoryList.setValue(summaText, forKey: "categoryName")
+                
+                do {
+                    try context.save()
+                }
+                catch {
+                    print("Error saving", error)
+                }
+                
+                self.list.append(categoryList as! CategoryList)
                 let indexPath = IndexPath(row: self.list.count - 1, section: 0)
                 
                 self.tableView.insertRows(at: [indexPath], with: .automatic)
@@ -67,10 +97,8 @@ class AddListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = list[indexPath.row]
-        
-        
-        
+        cell.textLabel?.text = list[indexPath.row].categoryName
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         
         return cell
     }
@@ -84,16 +112,6 @@ class AddListController: UITableViewController {
             self.delegate?.selectedList(listName: listName)
         }
         
-    }
-    
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-                        
-            self.list.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-        }
-        return [deleteAction]
     }
     
 }

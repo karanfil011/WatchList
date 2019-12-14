@@ -39,4 +39,18 @@ class CoreDataManager {
         
     }
     
+    func fetchCategoryList() -> [CategoryList] {
+        let context = persistantContainer.viewContext
+        let fetchRequest = NSFetchRequest<CategoryList>(entityName: "CategoryList")
+        
+        do {
+            let categoryList = try context.fetch(fetchRequest)
+            return categoryList
+        }
+        catch {
+            print("Failed to catch", error)
+            return []
+        }
+    }
+    
 }

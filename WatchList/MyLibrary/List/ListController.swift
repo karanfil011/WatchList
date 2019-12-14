@@ -22,6 +22,7 @@ class ListController: UITableViewController, AddToListDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.tableFooterView = UIView()
         tableView.register(ListTableCell.self, forCellReuseIdentifier: listCellId)
         navigationItem.title = "Last Added"
         

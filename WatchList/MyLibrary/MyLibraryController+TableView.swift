@@ -38,9 +38,10 @@ extension MyLibraryController {
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: secondSectionCellId, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: secondSectionCellId, for: indexPath) as! ListTableCell
             
-            cell.textLabel?.text = list[indexPath.row]
+            cell.label.text = list[indexPath.row].categoryName
+            cell.listImage.image = UIImage(named: "movies-folder")
             
             return cell
         }
@@ -54,14 +55,44 @@ extension MyLibraryController {
                 navigationController?.pushViewController(listController, animated: true)
             }
         }
+        if indexPath.section == 0 {
+            if cell!.isSelected && indexPath.row == 0 {
+                let watchLaterController = WatchLaterController()
+                navigationController?.pushViewController(watchLaterController, animated: true)
+            }
+        }
+        
+        else {
+            let sectionOneController = SectionOneListController()
+            navigationController?.pushViewController(sectionOneController, animated: true)
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        if indexPath.section == 0 {
+            return []
         }
-        return [deleteAction]
+        else {
+            let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+                
+                let categoryList = self.list[indexPath.row]
+                
+                self.list.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                let context = CoreDataManager.shared.persistantContainer.viewContext
+                context.delete(categoryList)
+                
+                do {
+                    try context.save()
+                }
+                catch {
+                    print("Failed to save", error)
+                }
+            }
+            return [deleteAction]
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
