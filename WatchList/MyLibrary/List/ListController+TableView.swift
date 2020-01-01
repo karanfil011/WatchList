@@ -47,4 +47,19 @@ extension ListController {
         }
         return [deleteAction]
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if cell!.isSelected {
+            let myMovie = myWatchList[indexPath.row]
+            
+            let detailController = DetailViewController()
+            detailController.movie = myMovie
+            
+            navigationController?.pushViewController(detailController, animated: true)
+            
+        }
+        
+    }
 }

@@ -39,7 +39,7 @@ extension MyLibraryController {
         }
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: secondSectionCellId, for: indexPath) as! ListTableCell
-            
+ 
             cell.label.text = list[indexPath.row].categoryName
             cell.listImage.image = UIImage(named: "movies-folder")
             
@@ -63,7 +63,12 @@ extension MyLibraryController {
         }
         
         else {
+            
+            let certainList = list[indexPath.row].categoryName
+            
             let sectionOneController = SectionOneListController()
+            sectionOneController.selectedListName = certainList
+            
             navigationController?.pushViewController(sectionOneController, animated: true)
         }
         
@@ -76,19 +81,33 @@ extension MyLibraryController {
         else {
             let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
                 
-                let categoryList = self.list[indexPath.row]
+                let alert = UIAlertController(title: "Shit", message: "Do you want to delete this list", preferredStyle: .alert)
                 
-                self.list.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                let context = CoreDataManager.shared.persistantContainer.viewContext
-                context.delete(categoryList)
                 
-                do {
-                    try context.save()
-                }
-                catch {
-                    print("Failed to save", error)
-                }
+                alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
+                    let categoryList = self.list[indexPath.row]
+                    
+                    self.list.remove(at: indexPath.row)
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                    let context = CoreDataManager.shared.persistantContainer.viewContext
+                    context.delete(categoryList)
+                    
+                    do {
+                        try context.save()
+                    }
+                    catch {
+                        print("Failed to save", error)
+                    }
+                }))
+                
+                alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (notAction) in
+                    
+                    print("Not OK")
+                }))
+                
+                self.present(alert, animated: true, completion: nil)
+                
+                
             }
             return [deleteAction]
         }

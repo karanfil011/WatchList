@@ -10,8 +10,12 @@ import Foundation
 import UIKit
 import CoreData
 
-protocol DataTransferProtocol {
+protocol DataTransferDelegate {
     func selectedList(listName: String)
+}
+
+protocol SendToAddControllerDelegate {
+    func sendToAdd(categoryList: CategoryList)
 }
 
 class AddListController: UITableViewController {
@@ -28,33 +32,25 @@ class AddListController: UITableViewController {
     
     var list = [CategoryList]()
     
-    var delegate: DataTransferProtocol?
+    var delegate: DataTransferDelegate?
+    var toAddDelegate: SendToAddControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
-        self.list = CoreDataManager.shared.fetchCategoryList()
-        
-        let context = CoreDataManager.shared.persistantContainer.viewContext
-        let categoryList = NSEntityDescription.insertNewObject(forEntityName: "CategoryList", into: context)
-        categoryList.setValue("Watch later", forKey: "categoryName")
-
-        do {
-            try context.save()
-        }
-        catch {
-            print("Failed to save", error)
-        }
-        
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-
+        
+        self.list = CoreDataManager.shared.fetchCategoryList()
+        tableView.reloadData()
+        
         navigationItem.title = "List"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add list", style: .plain, target: self, action: #selector(handleAddList))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create list", style: .plain, target: self, action: #selector(handleAddList))
         
     }
+    
     
     @objc private func handleAddList() {
         
@@ -71,14 +67,14 @@ class AddListController: UITableViewController {
                 
                 do {
                     try context.save()
+                    self.toAddDelegate?.sendToAdd(categoryList: categoryList as! CategoryList)
                 }
                 catch {
                     print("Error saving", error)
                 }
                 
                 self.list.append(categoryList as! CategoryList)
-                let indexPath = IndexPath(row: self.list.count - 1, section: 0)
-                
+                let indexPath = IndexPath(row: self.list.count - 1, section: 1)
                 self.tableView.insertRows(at: [indexPath], with: .automatic)
             }
         }
@@ -91,16 +87,33 @@ class AddListController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        }
         return list.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.textLabel?.text = list[indexPath.row].categoryName
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        
-        return cell
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+
+            cell.textLabel?.text = "Watch Later"
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+            cell.textLabel?.text = list[indexPath.row].categoryName
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+            
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -16,6 +16,7 @@ class ListController: UITableViewController, AddToListDelegate {
     }
     
     var myWatchList = [WatchList]()
+    var categoryList = [CategoryList]()
     
     let listCellId = "listCellId"
     
@@ -30,6 +31,9 @@ class ListController: UITableViewController, AddToListDelegate {
         tableView.reloadData()
     }
     
+    func fetchList() {
+        
+    }
     
     
 }

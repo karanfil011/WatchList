@@ -14,10 +14,21 @@ protocol AddToListDelegate {
     func didAddToList(watchList: WatchList, listName: String)
 }
 
-class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SendNameBack {
+protocol SendListNameToLibraryDelegate {
+    func sendListName()
+}
+
+class AddMovieController: UIViewController, DataTransferDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SendNameBack, SendToAddControllerDelegate {
+    
+    func sendToAdd(categoryList: CategoryList) {
+        list.append(categoryList)
+    }
+    
     func sendSelectedTitle(name: String) {
         titleTextField.text = name
     }
+    
+    var list = [CategoryList]()
     
     let titleLabel: UILabel = {
         let title = UILabel()
@@ -114,6 +125,8 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
     
     var addDelegate: AddToListDelegate?
     
+    var toMainDelegate: SendListNameToLibraryDelegate?
+    
     @objc private func handleSelectPhoto() {
         print("Trying to select photo..")
         let imagePickerController = UIImagePickerController()
@@ -187,12 +200,14 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
         
         let context = CoreDataManager.shared.persistantContainer.viewContext
         let watchList = NSEntityDescription.insertNewObject(forEntityName: "WatchList", into: context)
+        
 
         watchList.setValue(title, forKey: "name")
         watchList.setValue(list, forKey: "list")
         watchList.setValue(dateFormatted, forKey: "date")
         watchList.setValue(detail, forKey: "detail")
         watchList.setValue(image.jpegData(compressionQuality: 0.8) as NSData?, forKey: "image")
+        
         
         if titleTextField.text == "" {
             
@@ -206,6 +221,7 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
                 try context.save()
                 dismiss(animated: true) {
                     self.addDelegate?.didAddToList(watchList: watchList as! WatchList, listName: list)
+                    self.toMainDelegate?.sendListName()
                 }
             }
             catch {
@@ -219,6 +235,7 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
     
     @objc private func handleCancel() {
         dismiss(animated: true, completion: nil)
+        self.toMainDelegate?.sendListName()
     }
     
     @objc private func handleAddingList() {
@@ -226,6 +243,7 @@ class AddMovieController: UIViewController, DataTransferProtocol, UIImagePickerC
         let addListController = AddListController()
         let navController = UINavigationController(rootViewController: addListController)
         addListController.delegate = self
+        addListController.toAddDelegate = self
         
         present(navController, animated: true, completion: nil)
     }

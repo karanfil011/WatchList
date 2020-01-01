@@ -54,7 +54,6 @@ class ListTableCell: UITableViewCell {
         listImage.heightAnchor.constraint(equalToConstant: 40).isActive = true
         listImage.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
-        
         addSubview(label)
         label.topAnchor.constraint(equalTo: topAnchor, constant: 3).isActive = true
         label.leadingAnchor.constraint(equalTo: poster.trailingAnchor, constant: 10).isActive = true

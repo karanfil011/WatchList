@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="19A583" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CategoryList" representedClassName="CategoryList" syncable="YES" codeGenerationType="class">
         <attribute name="categoryName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="watcListName" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WatchList" inverseName="categoryListName" inverseEntity="WatchList" syncable="YES"/>
     </entity>
     <entity name="WatchList" representedClassName="WatchList" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -10,9 +11,10 @@
         <attribute name="list" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poster" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="categoryListName" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryList" inverseName="watcListName" inverseEntity="CategoryList" syncable="YES"/>
     </entity>
     <elements>
-        <element name="WatchList" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="CategoryList" positionX="-63" positionY="27" width="128" height="60"/>
+        <element name="CategoryList" positionX="-63" positionY="27" width="128" height="75"/>
+        <element name="WatchList" positionX="-63" positionY="-18" width="128" height="150"/>
     </elements>
 </model>
